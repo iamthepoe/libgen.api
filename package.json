@@ -6,10 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0",
     "ky": "^1.7.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11"
   }
 }
