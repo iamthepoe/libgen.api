@@ -16,10 +16,20 @@ type Book = {
     edit?: string;
 }
 
+type QueryOptions = {
+    resultsPerPage?: 25 | 50 | 100;
+    sort?: {
+        by: "year" | "title" | "publisher" | "author" | "pages" | "language" | "filesize" | "extension";
+        order: "ASC" | "DESC";
+    };
+    searchBy?: "title" | "author" | "series" | "publisher" | "year" | "identifier" | "language" | "md5" | "tags";
+    phrase?: boolean;
+    page?: number;
+}
+
 type Success<T> = { data: T; error: null };
 type Failure = { data: null; error: string };
 type LibraryGenesisApiResponse<T> = Success<T> | Failure;
-
 
 export class LibraryGenesisApi {
     private readonly htmlClient: typeof cheerio;
@@ -33,13 +43,18 @@ export class LibraryGenesisApi {
         });
     }
 
-    public async search(query: string): Promise<LibraryGenesisApiResponse<Book[]>> {
+    public async search(query: string, queryOptions: QueryOptions = {}): Promise<LibraryGenesisApiResponse<Book[]>> {
         const sanitizedQuery = this.sanitizeQuery(query);
 
         if (this.isFailure(sanitizedQuery)) return sanitizedQuery;
-
+        console.log(sanitizedQuery.data);
         const books: Book[] = [];
-        const html = await this.httpClient.get('search.php?req=' + sanitizedQuery.data).text();
+        const html = await this.httpClient.get('search.php', {
+            searchParams: {
+                req: sanitizedQuery.data,
+                ...(this.getQueryOptionsObject(queryOptions)),
+            }
+        }).text();
 
         const $ = this.htmlClient.load(html);
 
@@ -88,7 +103,7 @@ export class LibraryGenesisApi {
         }
     }
 
-    private sanitizeQuery(query: string): LibraryGenesisApiResponse<string | null> {
+    private sanitizeQuery(query: string): LibraryGenesisApiResponse<string> {
         const alphanumericOnly = query.replace(/[^a-zA-Z0-9]/g, '');
 
         if (alphanumericOnly.length <= 2) {
@@ -98,15 +113,41 @@ export class LibraryGenesisApi {
             }
         }
 
-        const encodedQuery = encodeURIComponent(query.trim());
-
         return {
-            data: encodedQuery,
+            data: query,
             error: null,
         }
     }
 
     private isFailure(data: LibraryGenesisApiResponse<unknown>): data is Failure {
         return data.data === null;
+    }
+
+    private getQueryOptionsObject(queryOptions: QueryOptions = {}) {
+        const queryObject = {};
+        const { sort, searchBy, resultsPerPage, page, phrase } = queryOptions;
+
+        if (sort && sort?.by && sort?.order) {
+            queryObject['sortmode'] = sort.order;
+            queryObject['sort'] = sort.by;
+        }
+
+        if (searchBy) {
+            queryObject['column'] = searchBy;
+        }
+
+        if(resultsPerPage) {
+            queryObject['res'] = resultsPerPage;
+        }
+
+        if(phrase === true || phrase === false) {
+            queryObject['phrase'] = phrase ? 1 : 0;
+        }
+
+        if(page) {
+            queryObject['page'] = page;
+        }
+
+        return queryObject;
     }
 }
