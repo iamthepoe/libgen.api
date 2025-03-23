@@ -1,9 +1,9 @@
 {
   "name": "library-genesis-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight Node.js client for querying and downloading books from Library Genesis.",
-  "main": "dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "node ./lib/__test__/index.test.ts",
