@@ -4,7 +4,9 @@
   "description": "A client for the Library Genesis.",
   "main": "index.js",
   "scripts": {
-    "test": "node ./lib/__test__/index.test.ts"
+    "test": "node ./lib/__test__/index.test.ts",
+    "style:check": "prettier --check lib/**/*.ts lib/**/*.test.ts lib/**.ts",
+    "style:fix": "prettier --write lib/**/*.ts lib/**/*.test.ts lib/**.ts"
   },
   "type": "module",
   "keywords": [
@@ -18,6 +20,7 @@
     "ky": "^1.7.5"
   },
   "devDependencies": {
-    "@types/node": "^22.13.11"
+    "@types/node": "^22.13.11",
+    "prettier": "^3.5.3"
   }
 }
