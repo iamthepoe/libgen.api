@@ -31,6 +31,7 @@ This library allows you to:
     -   [Downloading Files](#downloading-files)
 -   [Error Handling](#error-handling)
 -   [Testing](#testing)
+-   [ToDo](#todo)
 -   [License](#license)
 -   [Disclaimer](#disclaimer)
 
