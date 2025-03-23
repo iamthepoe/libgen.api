@@ -1,15 +1,18 @@
 {
   "name": "libgen-api",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A client for the Library Genesis.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./lib/__test__/index.test.ts"
   },
   "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "libgen",
+    "library-genesis"
+  ],
+  "author": "iamthepoe",
+  "license": "UNLICENSED",
   "dependencies": {
     "cheerio": "^1.0.0",
     "ky": "^1.7.5"
