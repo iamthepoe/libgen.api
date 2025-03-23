@@ -2,11 +2,15 @@
   "name": "libgen-api",
   "version": "0.0.1",
   "description": "A client for the Library Genesis.",
-  "main": "index.js",
+  "main": "dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "node ./lib/__test__/index.test.ts",
     "style:check": "prettier --check lib/**/*.ts lib/**/*.test.ts lib/**.ts",
-    "style:fix": "prettier --write lib/**/*.ts lib/**/*.test.ts lib/**.ts"
+    "style:fix": "prettier --write lib/**/*.ts lib/**/*.test.ts lib/**.ts",
+    "build": "npx tsup lib/index.ts --format cjs,esm --dts ",
+    "lint": "tsc"
   },
   "type": "module",
   "keywords": [
@@ -21,6 +25,12 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.11",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamthepoe/libgen.api.git"
   }
 }
