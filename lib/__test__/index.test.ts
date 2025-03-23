@@ -13,91 +13,92 @@ const mockHtml = `
 `;
 
 const mockHtmlClient = {
-    load: (html: string) => cheerio.load(html)
+  load: (html: string) => cheerio.load(html),
 } as typeof cheerio;
 
 const mockHttpClient = {
-    get: (_url: string, _opts?: any) => ({
-        text: async () => mockHtml,
-        arrayBuffer: async () => new TextEncoder().encode('mock-pdf-content').buffer
-    }),
-    create: () => mockHttpClient
+  get: (_url: string, _opts?: any) => ({
+    text: async () => mockHtml,
+    arrayBuffer: async () =>
+      new TextEncoder().encode('mock-pdf-content').buffer,
+  }),
+  create: () => mockHttpClient,
 } as typeof ky;
 
 const api = new LibraryGenesisApi(mockHtmlClient, mockHttpClient);
 
 test('sanitizeQuery should return error for short query', () => {
-    const result = api['sanitizeQuery']('a');
-    assert.deepEqual(result, {
-        data: null,
-        error: 'Query too short'
-    });
+  const result = api['sanitizeQuery']('a');
+  assert.deepEqual(result, {
+    data: null,
+    error: 'Query too short',
+  });
 });
 
 test('sanitizeQuery should accept a valid query', () => {
-    const result = api['sanitizeQuery']('javascript');
-    assert.deepEqual(result, {
-        data: 'javascript',
-        error: null
-    });
+  const result = api['sanitizeQuery']('javascript');
+  assert.deepEqual(result, {
+    data: 'javascript',
+    error: null,
+  });
 });
 
 test('getDownloadLinkbyFirstMirrorHtml should return correct link', () => {
-    const html = `<a href="http://example.com/file.pdf">GET</a>`;
-    const result = api['getDownloadLinkbyFirstMirrorHtml'](html);
-    assert.deepEqual(result, {
-        data: 'http://example.com/file.pdf',
-        error: null
-    });
+  const html = `<a href="http://example.com/file.pdf">GET</a>`;
+  const result = api['getDownloadLinkbyFirstMirrorHtml'](html);
+  assert.deepEqual(result, {
+    data: 'http://example.com/file.pdf',
+    error: null,
+  });
 });
 
 test('getDownloadLinkbyFirstMirrorHtml should return error if link not found', () => {
-    const html = `<a href="http://example.com">Download</a>`;
-    const result = api['getDownloadLinkbyFirstMirrorHtml'](html);
-    assert.deepEqual(result, {
-        data: null,
-        error: 'Download link not found'
-    });
+  const html = `<a href="http://example.com">Download</a>`;
+  const result = api['getDownloadLinkbyFirstMirrorHtml'](html);
+  assert.deepEqual(result, {
+    data: null,
+    error: 'Download link not found',
+  });
 });
 
 test('getQueryOptionsObject should return correct query object', () => {
-    const result = api['getQueryOptionsObject']({
-        resultsPerPage: 50,
-        sort: { by: 'year', order: 'DESC' },
-        searchBy: 'title',
-        page: 2,
-        phrase: true
-    });
+  const result = api['getQueryOptionsObject']({
+    resultsPerPage: 50,
+    sort: { by: 'year', order: 'DESC' },
+    searchBy: 'title',
+    page: 2,
+    phrase: true,
+  });
 
-    assert.deepEqual(result, {
-        res: 50,
-        sort: 'year',
-        sortmode: 'DESC',
-        column: 'title',
-        page: 2,
-        phrase: 1
-    });
+  assert.deepEqual(result, {
+    res: 50,
+    sort: 'year',
+    sortmode: 'DESC',
+    column: 'title',
+    page: 2,
+    phrase: 1,
+  });
 });
 
 test('parseBooksFromHtml should return parsed books array', () => {
-    const books = api['parseBooksFromHtml'](mockHtml);
-    assert.equal(books.length, 1);
-    assert.equal(books[0].id, '123');
-    assert.equal(books[0].title, 'Book Title');
-    assert.equal(typeof books[0].download, 'function');
+  const books = api['parseBooksFromHtml'](mockHtml);
+  assert.equal(books.length, 1);
+  assert.equal(books[0].id, '123');
+  assert.equal(books[0].title, 'Book Title');
+  assert.equal(typeof books[0].download, 'function');
 });
 
 test('search should return books array for valid query', async () => {
-    const result = await api.search('javascript');
-    assert.equal(result.error, null);
-    assert.ok(Array.isArray(result.data));
-    assert.equal(result.data.length, 1);
-    assert.equal(result.data[0].title, 'Book Title');
+  const result = await api.search('javascript');
+  assert.equal(result.error, null);
+  assert.ok(Array.isArray(result.data));
+  assert.equal(result.data.length, 1);
+  assert.equal(result.data[0].title, 'Book Title');
 });
 
 test('downloadBook should return Buffer', async () => {
-    const book = (await api.search('javascript')).data![0];
-    const download = await book.download();
-    assert.equal(download.error, null);
-    assert.ok(Buffer.isBuffer(download.data));
+  const book = (await api.search('javascript')).data![0];
+  const download = await book.download();
+  assert.equal(download.error, null);
+  assert.ok(Buffer.isBuffer(download.data));
 });
