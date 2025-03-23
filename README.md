@@ -1,3 +1,4 @@
+
 <p align=center>
     <img src="https://libgenesis.net/images/libgen-logo.webp"/>
 </p>
@@ -228,7 +229,7 @@ node --test
 
 ```
 
-Tests are located in the `/tests` directory and cover:
+Tests are located in the `/lib/__test__/` directory and cover:
 
 -   Query sanitization
 -   Download resolution
@@ -236,6 +237,15 @@ Tests are located in the `/tests` directory and cover:
 -   Error responses
 
 ----------
+
+## ToDo:
+
+ - [ ] Method to view book details
+ - [ ] Add more download options through other mirrors
+ - [ ] Add book cover information to objects
+ - [ ] Filter system
+ 
+ And anything else relevant that appears in an issue.
 
 ## License
 
