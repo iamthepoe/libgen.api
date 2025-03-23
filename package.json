@@ -1,7 +1,7 @@
 {
   "name": "library-genesis-api",
   "version": "0.0.1",
-  "description": "A client for the Library Genesis.",
+  "description": "A lightweight Node.js client for querying and downloading books from Library Genesis.",
   "main": "dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,6 +31,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iamthepoe/libgen.api.git"
+    "url": "git+https://github.com/iamthepoe/library-genesis-api.git"
   }
 }

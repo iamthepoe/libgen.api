@@ -1,0 +1,8 @@
+/lib
+/node_modules
+
+.env
+.vscode
+.prettierrc
+
+tsconfig.json
