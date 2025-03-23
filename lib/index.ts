@@ -37,8 +37,8 @@ export class LibraryGenesisApi {
     private parseBooksFromHtml(html: string): Book[] {
         const $ = this.htmlClient.load(html);
         const table = $("table.c");
-        const rows = table.find("tr").filter((_i, el) => $(el).find("td").length > 0);
-
+        const rows = table.find("tr").filter((_i, el) => $(el).find("td").length > 0).slice(1);
+        
         return rows.map((_i, row) => {
             const cols = $(row).find("td");
 
