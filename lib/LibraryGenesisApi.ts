@@ -47,7 +47,7 @@ export class LibraryGenesisApi {
         const sanitizedQuery = this.sanitizeQuery(query);
 
         if (this.isFailure(sanitizedQuery)) return sanitizedQuery;
-        console.log(sanitizedQuery.data);
+
         const books: Book[] = [];
         const html = await this.httpClient.get('search.php', {
             searchParams: {
