@@ -245,6 +245,7 @@ Tests are located in the `/lib/__test__/` directory and cover:
  - [ ] Add more download options through other mirrors
  - [ ] Add book cover information to objects
  - [ ] Filter system
+ - [ ] Method to get download URL
  
  And anything else relevant that appears in an issue.
 
