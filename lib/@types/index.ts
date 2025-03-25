@@ -15,7 +15,19 @@ export type Book = {
   mirrors: string[];
   edit?: string;
   download: () => Promise<LibraryGenesisResponse<Buffer>>;
+  getDetails: ()=> Promise<LibraryGenesisResponse<BookDetails>>;
 };
+
+export type BookDetails = {
+  coverUrl: string;
+  description: string;
+  hashes: Array<{ identifier: string; hash: string }>;
+  city: string;
+  edition: string;
+  timeModified: string;
+  timeAdded: string;
+  isbn: string;
+}
 
 export type QueryOptions = {
   resultsPerPage?: 25 | 50 | 100;
